@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form action="{% url 'index' %}" method="get">
+        {{ form.as_p }}
+        <p><input type="submit" value="View"></p>
+    </form>
+
+    {% for url in urls %}
+        <p><img src="{{ url }}"></p>
+    {% endfor %}
+{% endblock %}
