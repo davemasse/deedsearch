@@ -1,4 +1,5 @@
 import StringIO
+import io
 import reportlab
 import requests
 from PIL import Image
@@ -16,6 +17,7 @@ def index(request):
         form = DeedForm(request.GET)
         if form.is_valid():
             for i in range(1, 100):
+                # Iterate URLs and check for existence of images (there's no API to get number of pages per document)
                 data = {
                     'book': form.cleaned_data['book'],
                     'book_hundred': form.cleaned_data['book'][:2] + '00',
@@ -25,7 +27,6 @@ def index(request):
                     'plan': form.cleaned_data['plan'],
                 }
                 url = 'http://www.nhdeeds.com/%(county_full)s/book/book%(book_hundred)ssp/book%(book)s/%(county)s%(book)s-%(plan)s-%(page)03d.tif' % data
-                return HttpResponse(url)
 
                 r = requests.get(url)
 
@@ -35,19 +36,21 @@ def index(request):
                 urls.append(url)
 
             if len(urls):
-                c = canvas.Canvas('ex.pdf')
+                # Create canvas in memory
+                canvas_data = io.BytesIO()
+                c = canvas.Canvas(canvas_data)
 
+                # Iterate through URLs and add image data to PDF canvas
                 for url in urls:
                     raw_img = requests.get(url).content
-                    print StringIO.StringIO(raw_img)
                     img = Image.open(StringIO.StringIO(raw_img))
                     c.drawImage(ImageReader(StringIO.StringIO(raw_img)), 0, 0, 600, 800)
                     c.showPage()
                     c.save()
 
+                # Output PDF data to browser
                 response = HttpResponse(content_type='application/pdf')
-                #response['Content-Disposition'] = 'attachment; filename="%s%s.pdf"' % (form.cleaned_data.get('book'), form.cleaned_data.get('plan'),)
-                response.write(open('ex.pdf').read())
+                response.write(canvas_data.getvalue())
                 return response
     else:
         form = DeedForm()
