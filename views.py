@@ -5,13 +5,14 @@ import requests
 from PIL import Image
 from django.http import HttpResponse
 from django.shortcuts import render
+from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
 from .forms import COUNTIES, DeedForm
 
 def index(request):
-    urls = []
+    raw_images = []
 
     if len(request.GET):
         form = DeedForm(request.GET)
@@ -33,18 +34,17 @@ def index(request):
                 if r.status_code == 404:
                     break
 
-                urls.append(url)
+                raw_images.append(r.content)
 
-            if len(urls):
+            if len(raw_images):
                 # Create canvas in memory
                 canvas_data = io.BytesIO()
                 c = canvas.Canvas(canvas_data)
 
                 # Iterate through URLs and add image data to PDF canvas
-                for url in urls:
-                    raw_img = requests.get(url).content
+                for raw_img in raw_images:
                     img = Image.open(StringIO.StringIO(raw_img))
-                    c.drawImage(ImageReader(StringIO.StringIO(raw_img)), 0, 0, 600, 800)
+                    c.drawImage(ImageReader(StringIO.StringIO(raw_img)), 0, 0, 8.5 * inch, 11 * inch)#, 600, 800)
                     c.showPage()
                     c.save()
 
@@ -57,5 +57,4 @@ def index(request):
 
     return render(request, 'index.html', {
         'form': form,
-        'urls': urls,
     })
