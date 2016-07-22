@@ -1,12 +1,12 @@
 from django import forms
 
 COUNTIES = {
-    'EB': 'cheshire',
-    'GB': 'grafton',
-    'HB': 'hillsborough',
-    'OB': 'coos',
-    'RB': 'rockingham',
-    'UB': 'sullivan',
+    'EB': 'Cheshire',
+    'GB': 'Grafton',
+    'HB': 'Hillsborough',
+    'OB': 'Coos',
+    'RB': 'Rockingham',
+    'UB': 'Sullivan',
 }
 COUNTY_CHOICES = (
     ('EB', COUNTIES['EB']),
@@ -17,7 +17,17 @@ COUNTY_CHOICES = (
     ('UB', COUNTIES['UB']),
 )
 
+from .utils import Deed
+
 class DeedForm(forms.Form):
     county = forms.ChoiceField(choices=COUNTY_CHOICES)
     book = forms.CharField()
     plan = forms.CharField()
+
+    def clean(self):
+        cleaned_data = super(DeedForm, self).clean()
+
+        deed = Deed(county=self.cleaned_data.get('county'), book=self.cleaned_data.get('book'), plan=self.cleaned_data.get('plan'))
+
+        if not deed.is_valid():
+            raise forms.ValidationError('The requested page is not valid.')

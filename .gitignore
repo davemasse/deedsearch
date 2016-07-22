@@ -1,2 +1,6 @@
 *.pyc
 *.pdf
+.bundle
+_site
+node_modules
+vendor

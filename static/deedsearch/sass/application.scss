@@ -1,0 +1,12 @@
+@import "bourbon/bourbon";
+@import "neat/neat";
+@import "base/base";
+
+.messages {
+    .error {
+        color: red;
+    }
+}
+input[type="text"] {
+    width: 10%;
+}
