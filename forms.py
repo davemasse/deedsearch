@@ -30,4 +30,4 @@ class DeedForm(forms.Form):
         deed = Deed(county=self.cleaned_data.get('county'), book=self.cleaned_data.get('book'), plan=self.cleaned_data.get('plan'))
 
         if not deed.is_valid():
-            raise forms.ValidationError('The requested page is not valid.')
+            raise forms.ValidationError('The record you requested is not available.')

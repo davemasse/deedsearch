@@ -13,8 +13,6 @@ def index(request):
         form = DeedForm(request.GET)
         if form.is_valid():
             return redirect(reverse('get_deed', kwargs=form.cleaned_data))
-        else:
-            messages.error(request, 'The record you requested is not available.')
     else:
         form = DeedForm()
 

@@ -2,11 +2,29 @@
 @import "neat/neat";
 @import "base/base";
 
-.messages {
-    .error {
-        color: red;
+$mobile: new-breakpoint(max-width 480px 4);
+
+* {
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: rem(16);
+}
+h1 {
+    font-size: rem(24);
+}
+
+input[type="submit"], input[type="text"] {
+    width: rem(350);
+
+    @include media($mobile) {
+        width: 100%;
     }
 }
-input[type="text"] {
-    width: 10%;
+
+.container {
+    @include outer-container;
+}
+.errorlist {
+    color: red;
+    font-weight: bold;
+    margin: rem(16) 0;
 }
