@@ -1,7 +1,7 @@
-import StringIO
 import io
 import reportlab
 import requests
+from io import BytesIO
 from PIL import Image
 from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
@@ -56,16 +56,16 @@ class Deed(object):
 
             raw_images.append(r.content)
 
-        if len(raw_images):
+        if raw_images:
             # Create canvas in memory
             canvas_data = io.BytesIO()
             c = canvas.Canvas(canvas_data)
 
             # Iterate through URLs and add image data to PDF canvas
             for raw_img in raw_images:
-                img = Image.open(StringIO.StringIO(raw_img))
-                c.drawImage(ImageReader(StringIO.StringIO(raw_img)), 0, 0, 8.5 * inch, 11 * inch)
+                c.drawImage(ImageReader(BytesIO(raw_img)), 0, 0, 8.5 * inch, 11 * inch)
                 c.showPage()
-                c.save()
+
+            c.save()
 
             return canvas_data

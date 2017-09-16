@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from deedsearch.views import get_deed,index
+from deedsearch.views import get_deed, index
 
 urlpatterns = [
     url(r'^$', index, name='index'),
