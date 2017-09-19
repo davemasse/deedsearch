@@ -1,23 +1,7 @@
 from django import forms
 
-COUNTIES = {
-    'EB': 'Cheshire',
-    'GB': 'Grafton',
-    'HB': 'Hillsborough',
-    'OB': 'Coos',
-    'RB': 'Rockingham',
-    'UB': 'Sullivan',
-}
-COUNTY_CHOICES = (
-    ('EB', COUNTIES['EB']),
-    ('GB', COUNTIES['GB']),
-    ('HB', COUNTIES['HB']),
-    ('OB', COUNTIES['OB']),
-    ('RB', COUNTIES['RB']),
-    ('UB', COUNTIES['UB']),
-)
+from .utils import Deed, COUNTY_CHOICES, INDEX
 
-from .utils import Deed
 
 class DeedForm(forms.Form):
     county = forms.ChoiceField(choices=COUNTY_CHOICES)
@@ -31,3 +15,9 @@ class DeedForm(forms.Form):
 
         if not deed.is_valid():
             raise forms.ValidationError('The record you requested is not available.')
+
+class DeedSearchForm(forms.Form):
+    county = forms.ChoiceField(choices=COUNTY_CHOICES)
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    index = forms.ChoiceField(choices=INDEX)

@@ -1,6 +1,7 @@
 @import "bourbon/bourbon";
 @import "neat/neat";
 @import "base/base";
+@import "responsive-tables";
 
 $mobile: new-breakpoint(max-width 480px 4);
 
@@ -27,4 +28,14 @@ input[type="submit"], input[type="text"] {
     color: red;
     font-weight: bold;
     margin: rem(16) 0;
+}
+
+.responsive-table {
+    @extend %responive-tables;
+    @include responive-tables('PDF', 'Date', 'Grantee', 'Grantor', 'Town', 'Type', 'Book/Plan');
+}
+
+.responsive-table-large {
+    @extend %responive-tables-large;
+    @include responive-tables-large('PDF', 'Date', 'Grantee', 'Grantor', 'Town', 'Type', 'Book/Plan');
 }

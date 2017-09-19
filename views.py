@@ -5,11 +5,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
-from .forms import COUNTIES, DeedForm
-from .utils import Deed
+from .forms import DeedForm, DeedSearchForm
+from .utils import Deed, DeedSearch, COUNTIES
+
 
 def index(request):
-    if len(request.GET):
+    if request.GET:
         form = DeedForm(request.GET)
         if form.is_valid():
             return redirect(reverse('get_deed', kwargs=form.cleaned_data))
@@ -26,8 +27,8 @@ def get_deed(request, county, book, plan):
         'book': book,
         'plan': plan
     }
+
     form = DeedForm(deed_args)
-    form.is_valid()
     if form.is_valid():
         deed = Deed(county=form.cleaned_data.get('county'), book=form.cleaned_data.get('book'), plan=form.cleaned_data.get('plan'))
 
@@ -38,3 +39,19 @@ def get_deed(request, county, book, plan):
         return response
 
     return HttpResponseRedirect('%s?%s' % (reverse('index'), urlencode(deed_args)))
+
+def search(request):
+    if request.POST:
+        form = DeedSearchForm(request.POST)
+
+        if form.is_valid():
+            deed_search = DeedSearch()
+            entries = deed_search.search(county=form.cleaned_data.get('county'), index=form.cleaned_data.get('index'), first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'))
+    else:
+        form = DeedSearchForm()
+        entries = []
+
+    return render(request, 'search.html', {
+        'form': form,
+        'entries': entries,
+    })
