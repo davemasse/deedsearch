@@ -19,12 +19,12 @@ gulp.task('compile-sass', function () {
             return 'Dang! ' + error.message;
         }))
         .pipe(gulp.dest('css'))
-        .pipe(gulp.dest('_site/css'))
+        .pipe(gulp.dest('css'))
         .pipe(browserSync.stream());
 });
 
 gulp.task('browser-sync', ['compile-sass'], function() {  
-    browserSync.init(['_site/css/*.css'], {
+    browserSync.init(['css/*.css'], {
         open: false,
         proxy: 'localhost:8000'
     });
@@ -32,8 +32,9 @@ gulp.task('browser-sync', ['compile-sass'], function() {
 
 gulp.task('watch', function() {
     gulp.watch(['sass/**/*.scss'], ['compile-sass']);
-    gulp.watch(['**/*.html', '**/*.py']).on('change', browserSync.reload);
+    gulp.watch(['../../**/*.html', '**/*.py']).on('change', browserSync.reload);
 });
 
 // watch for changes
-gulp.task('default', ['compile-sass', 'browser-sync', 'watch']);
+gulp.task('default', ['compile-sass']);
+gulp.task('develop', ['compile-sass', 'browser-sync', 'watch']);

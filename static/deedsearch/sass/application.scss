@@ -12,12 +12,21 @@ $mobile: new-breakpoint(max-width 480px 4);
 h1 {
     font-size: rem(24);
 }
+h2 {
+    font-size: rem(18);
+}
 
 input[type="submit"], input[type="text"] {
     width: rem(350);
 
     @include media($mobile) {
         width: 100%;
+    }
+}
+
+th {
+    &.small {
+        width: 12.5%;
     }
 }
 
@@ -32,10 +41,10 @@ input[type="submit"], input[type="text"] {
 
 .responsive-table {
     @extend %responive-tables;
-    @include responive-tables('PDF', 'Date', 'Grantee', 'Grantor', 'Town', 'Type', 'Book/Plan');
+    @include responive-tables('PDF', 'Book/Plan', 'Full Record');
 }
 
 .responsive-table-large {
     @extend %responive-tables-large;
-    @include responive-tables-large('PDF', 'Date', 'Grantee', 'Grantor', 'Town', 'Type', 'Book/Plan');
+    @include responive-tables-large('PDF', 'Book/Plan', 'Full Record');
 }

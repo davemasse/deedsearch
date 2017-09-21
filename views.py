@@ -41,6 +41,8 @@ def get_deed(request, county, book, plan):
     return HttpResponseRedirect('%s?%s' % (reverse('index'), urlencode(deed_args)))
 
 def search(request):
+    searched = True
+
     if request.POST:
         form = DeedSearchForm(request.POST)
 
@@ -48,10 +50,12 @@ def search(request):
             deed_search = DeedSearch()
             entries = deed_search.search(county=form.cleaned_data.get('county'), index=form.cleaned_data.get('index'), first_name=form.cleaned_data.get('first_name'), last_name=form.cleaned_data.get('last_name'))
     else:
-        form = DeedSearchForm()
         entries = []
+        form = DeedSearchForm()
+        searched = False
 
     return render(request, 'search.html', {
-        'form': form,
         'entries': entries,
+        'form': form,
+        'searched': searched,
     })

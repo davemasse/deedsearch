@@ -20,35 +20,32 @@
         {% csrf_token %}
     </form>
 
-    {% if entries %}
-        <table class="responsive-table-large">
-            <thead>
-                <tr>
-                    <th>View</th>
-                    <th>Date</th>
-                    <th>Grantee</th>
-                    <th>Grantor</th>
-                    <th>Town</th>
-                    <th>Type</th>
-                    <th>Book/Plan</th>
-                <tr>
-            </thead>
-            <tbody>
-                {% for entry in entries %}
+    {% if searched %}
+        <hr>
+        <h2>Search Results</h2>
+
+        {% if entries %}
+            <table class="responsive-table-large">
+                <thead>
                     <tr>
-                        <td><a href="{% url 'get_deed' county=form.cleaned_data.county book=entry.book plan=entry.plan %}" target="_blank">View</a></td>
-                        <td>{{ entry.date }}</td>
-                        <td>{{ entry.grantee }}</td>
-                        <td>{{ entry.grantor }}</td>
-                        <td>{{ entry.town }}</td>
-                        <td>{{ entry.type }}</td>
-                        <td>{{ entry.book }}/{{ entry.plan }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No matching entries were found.</p>
+                        <th class="small">PDF</th>
+                        <th class="small">Book/Plan</th>
+                        <th>Full Record</th>
+                    <tr>
+                </thead>
+                <tbody>
+                    {% for entry in entries %}
+                        <tr>
+                            <td><a href="{% url 'get_deed' county=form.cleaned_data.county book=entry.book plan=entry.plan %}" target="_blank">View</a></td>
+                            <td>{{ entry.book }}/{{ entry.plan }}</td>
+                            <td>{{ entry.full_record }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No matching entries were found.</p>
+        {% endif %}
     {% endif %}
 
     {% for url in urls %}

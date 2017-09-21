@@ -21,78 +21,8 @@ COUNTY_CHOICES = (
     ('RB', COUNTIES['RB']),
     ('UB', COUNTIES['UB']),
 )
-COUNTY_CHUNK_LENGTH = {
-    'EB': 264,
-    'GB': 264,
-    'HB': 264,
-    'OB': 528,
-    'RB': 264,
-    'UB': 264,
-}
-COUNTY_INITIAL_LENGTH = {
-    'EB': 264,
-    'GB': 264,
-    'HB': 264,
-    'OB': 396,
-    'RB': 396,
-    'UB': 264,
-}
-COUNTY_DATA_RANGES = {
-    'EB': {
-        'grantee': [2, 41],
-        'grantor': [41, 64],
-        'book': [64, 68],
-        'plan': [69, 73],
-        'type': [73, 83],
-        'town': [83, 93],
-        'date': [93, 101],
-    },
-    'GB': {
-        'grantee': [2, 41],
-        'grantor': [41, 64],
-        'book': [64, 68],
-        'plan': [69, 73],
-        'type': [73, 83],
-        'town': [83, 93],
-        'date': [93, 101],
-    },
-    'HB': {
-        'grantee': [2, 41],
-        'grantor': [41, 64],
-        'book': [64, 68],
-        'plan': [69, 73],
-        'type': [73, 83],
-        'town': [83, 93],
-        'date': [93, 101],
-    },
-    'OB': {
-        'grantee': [2, 41],
-        'grantor': [41, 64],
-        'book': [64, 68],
-        'plan': [69, 73],
-        'type': [73, 83],
-        'town': [83, 93],
-        'date': [93, 101],
-    },
-    'RB': {
-        'grantee': [2, 41],
-        'grantor': [50, 73],
-        'book': [73, 77],
-        'plan': [78, 82],
-        'type': [82, 92],
-        'town': [92, 102],
-        'date': [41, 49],
-    },
-    'UB': {
-        'grantee': [2, 41],
-        'grantor': [41, 64],
-        'book': [64, 68],
-        'plan': [69, 73],
-        'type': [73, 83],
-        'town': [83, 93],
-        'date': [93, 101],
-    },
-}
+COUNTY_CHUNK_LENGTH = 264
+COUNTY_INITIAL_LENGTH = 396
 COUNTY_URL_SHORT = {
     'EB': 'ch',
     'GB': 'gf',
@@ -190,28 +120,23 @@ class DeedSearch(object):
 
         content = request.text
         # Remove leading info content
-        output = re.sub(r'^.{%s}' % (COUNTY_INITIAL_LENGTH[county],), '', content)
+        output = re.sub(r'^.{%s}' % (COUNTY_INITIAL_LENGTH,), '', content)
 
         entries = []
-        for line in list(chunkstring(output, COUNTY_CHUNK_LENGTH[county])):
+        for line in list(chunkstring(output, COUNTY_CHUNK_LENGTH)):
             # Skip empty lines
             if len(line.strip()) == 0:
                 continue
 
-            range = COUNTY_DATA_RANGES[county]
-            entries.append({
-                'book': line[range['book'][0]:range['book'][1]],
-                'date': line[range['date'][0]:range['date'][1]],
-                'grantee': line[range['grantee'][0]:range['grantee'][1]],
-                'grantor': line[range['grantor'][0]:range['grantee'][1]],
-                'plan': line[range['plan'][0]:range['plan'][1]],
-                'town': line[range['town'][0]:range['town'][1]],
-                'type': line[range['type'][0]:range['type'][1]],
-            })
+            matches = re.search(r'([0-9]{4})-([0-9]{4})', line)
+            if not matches:
+                continue
 
-        for entry in entries:
-            for key, value in entry.items() :
-                entry[key] = value.strip()
+            entries.append({
+                'book': matches.group(1),
+                'plan': matches.group(2),
+                'full_record': line.strip(),
+            })
 
         return entries
 
