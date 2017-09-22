@@ -114,7 +114,7 @@ class DeedSearch(object):
             'surName': last_name.upper(),
             'gvnName': first_name.upper(),
             'indexChoice': index,
-            'startDate': '19000101',
+            'startDate': '0',
             'endDate': '20171231',
             'allnames': '1',
             'county': COUNTIES[county.upper()],
