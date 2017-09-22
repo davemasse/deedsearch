@@ -1,7 +1,7 @@
 *.pyc
 *.pdf
 .bundle
-_site
+build
 node_modules
-static/deedsearch/css/
+deedsearch/static/deedsearch/css/
 vendor
