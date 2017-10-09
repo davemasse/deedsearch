@@ -77,6 +77,7 @@ class Deed(object):
             'county_full': COUNTIES[self.county.upper()].lower(),
             'page': page_number,
             'plan': self.plan,
+            'end': '',
         }
         url = 'http://www.nhdeeds.com/%(county_full)s/book/book%(book_hundred)ssp/book%(book)s/%(county)s%(book)s-%(plan)s-%(page)03d.tif' % data
 
