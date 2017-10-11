@@ -9,6 +9,12 @@ $mobile: new-breakpoint(max-width 480px 4);
     font-family: 'Open Sans', sans-serif !important;
     font-size: rem(16);
 }
+a {
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 h1 {
     font-size: rem(24);
 }
@@ -32,6 +38,13 @@ th {
 
 .container {
     @include outer-container;
+}
+.disclaimer {
+    margin-top: 1em;
+
+    * {
+        font-size: rem(12);
+    }
 }
 .errorlist {
     color: red;

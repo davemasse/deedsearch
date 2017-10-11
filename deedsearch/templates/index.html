@@ -2,8 +2,8 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Deed Search" %}{% endblock %}
-{% block h1 %}{% trans "Deed Search" %}{% endblock %}
+{% block title %}{% trans "New Hampshire Deed Search" %}{% endblock %}
+{% block h1 %}{% trans "New Hampshire Deed Search" %}{% endblock %}
 
 {% block content %}
     {% if messages %}
@@ -13,6 +13,8 @@
             {% endfor %}
         </div>
     {% endif %}
+
+    <p>If you know the book and plan number, you can enter them below. Otherwise, you can <a href="{% url 'search' %}">search the database</a>.</p>
 
     <form action="{% url 'index' %}" method="get">
         {{ form.as_p }}

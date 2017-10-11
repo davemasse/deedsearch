@@ -2,8 +2,8 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Deed Search" %}{% endblock %}
-{% block h1 %}{% trans "Deed Search" %}{% endblock %}
+{% block title %}{% trans "New Hampshire Deed Search" %}{% endblock %}
+{% block h1 %}{% trans "New Hampshire Deed Search" %}{% endblock %}
 
 {% block content %}
     {% if messages %}
@@ -38,7 +38,7 @@
                         <tr>
                             <td><a href="{% url 'get_deed' county=form.cleaned_data.county book=entry.book plan=entry.plan %}" target="_blank">View</a></td>
                             <td>{{ entry.book }}/{{ entry.plan }}</td>
-                            <td>{{ entry.full_record }}</td>
+                            <td title="{{ entry.full_record }}">{{ entry.full_record }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
