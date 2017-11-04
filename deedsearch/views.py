@@ -1,12 +1,11 @@
 from urllib.parse import urlencode
 
-from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from .forms import DeedForm, DeedSearchForm
-from .utils import Deed, DeedSearch, COUNTIES
+from .utils import Deed, DeedSearch
 
 
 def index(request):

@@ -135,7 +135,7 @@ class DeedSearch(object):
         entries = []
         for line in list(chunkstring(output, COUNTY_CHUNK_LENGTH)):
             # Skip empty lines
-            if len(line.strip()) == 0:
+            if line.strip():
                 continue
 
             matches = re.search(r'([0-9]{4})-([0-9]{4})', line)
