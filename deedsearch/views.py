@@ -17,7 +17,7 @@ def index(request):
     else:
         form = DeedForm()
 
-    return render(request, 'index.html', {
+    return render(request, 'deedsearch/index.html', {
         'form': form,
     })
 
@@ -54,7 +54,7 @@ def search(request):
         form = DeedSearchForm()
         searched = False
 
-    return render(request, 'search.html', {
+    return render(request, 'deedsearch/search.html', {
         'entries': entries,
         'form': form,
         'searched': searched,
