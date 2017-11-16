@@ -1,0 +1,30 @@
+{% extends "deedsearch/base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "New Hampshire Deed Search" %}{% endblock %}
+{% block description %}{% trans "Search New Hampshire deeds by grantor or grantee and view unofficial PDF copies." %}{% endblock %}
+{% block h1 %}{% trans "New Hampshire Deed Search" %}{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <p class="{{ message.level_tag }}">{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% url "search" as search %}
+    <p>{% blocktrans %}If you know the book and plan number, you can enter them below. Otherwise, you can <a href="{{ search }}">search the database</a>.{% endblocktrans %}</p>
+
+    <form action="{% url "index" %}" method="get">
+        {{ form.as_p }}
+        <p><input type="submit" value="View"></p>
+        {% csrf_token %}
+    </form>
+
+    {% for url in urls %}
+        <p><img src="{{ url }}"></p>
+    {% endfor %}
+{% endblock %}
