@@ -1,6 +1,10 @@
 from urllib.parse import urlencode
 
-from django.core.urlresolvers import reverse
+try:
+    # Django 2.x
+    from django.urls import reverse
+except:
+    from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
