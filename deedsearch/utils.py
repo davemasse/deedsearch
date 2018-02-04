@@ -1,6 +1,7 @@
-from io import BytesIO
+import datetime
 import re
 import requests
+from io import BytesIO
 from reportlab.lib.units import inch
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen.canvas import Canvas
@@ -43,6 +44,8 @@ COUNTY_URL_SHORT = {
 INDEX = (
     ('GRANTOR', 'Grantor'),
     ('GRANTEE', 'Grantee'),
+    ('UGRANTOR', 'Unverified Grantor'),
+    ('UGRANTEE', 'Unverified Grantee'),
 )
 
 
@@ -116,7 +119,7 @@ class DeedSearch(object):
             'gvnName': first_name.upper(),
             'indexChoice': index,
             'startDate': '0',
-            'endDate': '20171231',
+            'endDate': datetime.datetime.now().strftime('%Y%m%d'),
             'allnames': '1',
             'county': COUNTIES[county.upper()],
             'displayLines': '100',
