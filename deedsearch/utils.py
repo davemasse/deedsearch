@@ -136,6 +136,7 @@ class DeedSearch(object):
         output = re.sub(r'^.{%s}' % (COUNTY_INITIAL_LENGTH,), '', content)
 
         entries = []
+        # Data is returned in a long stream and needs to be broken down for processing
         for line in list(chunkstring(output, COUNTY_CHUNK_LENGTH)):
             # Skip empty lines
             if not line.strip():
@@ -153,5 +154,6 @@ class DeedSearch(object):
 
         return entries
 
+# Borrowed from https://stackoverflow.com/a/18854817
 def chunkstring(string, length):
     return (string[0+i:length+i] for i in range(0, len(string), length))
