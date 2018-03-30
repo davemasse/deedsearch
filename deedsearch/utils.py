@@ -131,6 +131,11 @@ class DeedSearch(object):
         url = 'http://www.nhdeeds.com/%(county)s/%(county_url_short)sindxservlet/%(county_url_short)sindxServlet1' % data
         request = requests.post(url, data=payload)
 
+        if request.status_code != 200:
+            # Some counties are starting to use a new search URL
+            url = 'http://test.nhdeeds.com/nh%(county)s/CCSimulacrum.WebSite/indexsearch/search' % data
+            request = requests.post(url, data=payload)
+
         content = request.text
         # Remove leading info content
         output = re.sub(r'^.{%s}' % (COUNTY_INITIAL_LENGTH,), '', content)
