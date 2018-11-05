@@ -83,8 +83,13 @@ class Deed(object):
             'end': '',
         }
         url = 'http://www.nhdeeds.com/%(county_full)s/book/book%(book_hundred)ssp/book%(book)s/%(county)s%(book)s-%(plan)s-%(page)03d.tif' % data
+        request = requests.get(url)
 
-        return requests.get(url)
+        if request.status_code != 200:
+            url = 'http://test.nhdeeds.com/nh%(county_full)s/CCSimulacrum.WebSite/images/doc_%(book)s-%(plan)s-%(page)03d.tif' % data
+            request = requests.get(url)
+
+        return request
 
     def get_pages(self, start=1, end=100):
         raw_images = []
