@@ -9,37 +9,25 @@ from reportlab.pdfgen.canvas import Canvas
 COUNTIES = {
     'BB': 'Belknap',
     'CB': 'Carroll',
-    'EB': 'Cheshire',
-    'OB': 'Coos',
-    'GB': 'Grafton',
     'HB': 'Hillsborough',
     'RB': 'Rockingham',
     'SB': 'Strafford',
-    'UB': 'Sullivan',
 }
 COUNTY_CHOICES = (
     ('BB', COUNTIES['BB']),
     ('CB', COUNTIES['CB']),
-    ('EB', COUNTIES['EB']),
-    ('OB', COUNTIES['OB']),
-    ('GB', COUNTIES['GB']),
     ('HB', COUNTIES['HB']),
     ('RB', COUNTIES['RB']),
     ('SB', COUNTIES['SB']),
-    ('UB', COUNTIES['UB']),
 )
 COUNTY_CHUNK_LENGTH = 264
 COUNTY_INITIAL_LENGTH = 396
 COUNTY_URL_SHORT = {
     'BB': 'be',
     'CB': 'ca',
-    'EB': 'ch',
-    'OB': 'co',
-    'GB': 'gf',
     'HB': 'hi',
     'RB': 'ro',
     'SB': 'st',
-    'UB': 'su',
 }
 INDEX = (
     ('GRANTOR', 'Grantor'),
